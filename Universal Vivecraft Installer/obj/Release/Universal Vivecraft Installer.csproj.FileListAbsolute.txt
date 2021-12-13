@@ -1,0 +1,9 @@
+C:\Users\Shadow\source\repos\Minecraft\Vivecraft\Universal Vivecraft Installer\Universal Vivecraft Installer\bin\Release\NLog.config
+C:\Users\Shadow\source\repos\Minecraft\Vivecraft\Universal Vivecraft Installer\Universal Vivecraft Installer\bin\Release\Universal Vivecraft Installer.exe.config
+C:\Users\Shadow\source\repos\Minecraft\Vivecraft\Universal Vivecraft Installer\Universal Vivecraft Installer\bin\Release\Universal Vivecraft Installer.exe
+C:\Users\Shadow\source\repos\Minecraft\Vivecraft\Universal Vivecraft Installer\Universal Vivecraft Installer\obj\Release\Universal Vivecraft Installer.csproj.AssemblyReference.cache
+C:\Users\Shadow\source\repos\Minecraft\Vivecraft\Universal Vivecraft Installer\Universal Vivecraft Installer\obj\Release\Universal Vivecraft Installer.csproj.SuggestedBindingRedirects.cache
+C:\Users\Shadow\source\repos\Minecraft\Vivecraft\Universal Vivecraft Installer\Universal Vivecraft Installer\obj\Release\UniversalVivecraftInstaller.MainForm.resources
+C:\Users\Shadow\source\repos\Minecraft\Vivecraft\Universal Vivecraft Installer\Universal Vivecraft Installer\obj\Release\Universal Vivecraft Installer.csproj.GenerateResource.cache
+C:\Users\Shadow\source\repos\Minecraft\Vivecraft\Universal Vivecraft Installer\Universal Vivecraft Installer\obj\Release\Universal Vivecraft Installer.csproj.CoreCompileInputs.cache
+C:\Users\Shadow\source\repos\Minecraft\Vivecraft\Universal Vivecraft Installer\Universal Vivecraft Installer\obj\Release\Universal Vivecraft Installer.exe
