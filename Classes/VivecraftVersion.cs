@@ -14,6 +14,11 @@ namespace UniversalVivecraftInstaller
     {
         internal static Regex regex = new Regex(@"\d+\.\d+\.*\w*");
     }
+    class Cache
+    {
+        public DateTime LastUpdated { get; set; } = DateTime.Now;
+        public List<VivecraftVersion> Versions { get; set; } = new List<VivecraftVersion>();
+    }
     class VivecraftVersion
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
@@ -38,7 +43,7 @@ namespace UniversalVivecraftInstaller
             Name = repository.Name;
             MCVersion = VersionRegex.regex.Match(repository.Description).Value;
             System.Version.TryParse(MCVersion.Remove(".X"), out var _ver); _MCVersion = _ver;
-            Releases = GithubCl.GetAllReleasesForRepository(MainForm.ghClient, repository.Owner.Login, repository.Name);
+            Releases = GithubCl.GetAllReleasesForRepository(MainForm.githubClient, repository.Owner.Login, repository.Name);
             if (Releases.Count > 0)
             {
                 foreach (var asset in Releases[0].Assets)

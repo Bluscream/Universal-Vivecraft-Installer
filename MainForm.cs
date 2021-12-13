@@ -8,49 +8,72 @@ using Octokit;
 using Bluscream;
 using System.IO;
 using System.Net;
+using System.Reflection;
+using Newtonsoft.Json;
+using ForgedCurse;
+using ForgedCurse.WrapperTypes;
 
 namespace UniversalVivecraftInstaller
 {
     public partial class MainForm : Form
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-        public static GitHubClient ghClient = new GitHubClient(new ProductHeaderValue("vivecraft-universal-installer"));
-        internal List<VivecraftVersion> versions = new List<VivecraftVersion>();
-        internal const string GH_USERNAME = "jrbudda";
 
+        public static GitHubClient githubClient = new GitHubClient(new ProductHeaderValue("vivecraft-universal-installer"));
+        public static ForgeClient forgeClient = new ForgeClient();
+
+        internal FileInfo cacheFile = new DirectoryInfo(Path.GetTempPath()).CombineFile(Assembly.GetExecutingAssembly().GetName().Name + ".json");
+        internal Cache Cache = new Cache();
+
+        internal const string GH_USERNAME = "jrbudda";
 
         public MainForm()
         {
             GetVersions();
             InitializeComponent();
             lst_versions.DataSource = bnd_versions;
-            bnd_versions.DataSource = versions;
+            bnd_versions.DataSource = Cache.Versions;
             lst_versions.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
             lst_versions.Columns[lst_versions.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             lst_versions.Rows[0].Selected = true;
             lst_versions.FirstDisplayedScrollingRowIndex = lst_versions.Rows[0].Index;
+            lst_versions_SelectionChanged(null, null);
+        }
+
+        private void UpdateCache()
+        {
+            Cache.LastUpdated = DateTime.Now;
+            cacheFile.WriteAllText(JsonConvert.SerializeObject(Cache, Formatting.Indented));
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             // var user = ghClient.User.Get(GH_USERNAME).Result;
-            Console.WriteLine(versions.ToJson(true));
             // var releases = ghClient.Repository.Release.GetAll(GH_USERNAME, "octokit.net").Result;
         }
 
         private List<VivecraftVersion> GetVersions(bool force = false)
         {
-            if (!force && versions.Count < 1)
+            if (cacheFile.Exists && cacheFile.Length > 0 && cacheFile.LastWriteTime < DateTime.Now - TimeSpan.FromMinutes(30))
             {
-                versions.Clear();
-                foreach (var ver in GithubCl.GetAllRepositoriesForUser(ghClient, GH_USERNAME).Where(r => r.Description != null && r.Description.StartsWith("VR mod for Minecraft")))
+                using (StreamReader file = cacheFile.OpenText())
                 {
-                    Logger.Info("new repository: %s", ver.FullName);
-                    versions.Add(new VivecraftVersion(ver));
+                    JsonSerializer serializer = new JsonSerializer();
+                    Cache.Versions = ((Cache)serializer.Deserialize(file, typeof(Cache))).Versions;
                 }
-                versions.Reverse();
             }
-            return versions;
+            if (force || Cache.Versions.Count < 1)
+            {
+                Cache.Versions.Clear();
+                foreach (var ver in GithubCl.GetAllRepositoriesForUser(githubClient, GH_USERNAME).Where(r => r.Description != null && r.Description.StartsWith("VR mod for Minecraft")))
+                {
+                    Logger.Info("New repository: %s", ver.FullName);
+                    Cache.Versions.Add(new VivecraftVersion(ver));
+                }
+                Cache.Versions.Reverse();
+                UpdateCache();
+            }
+            return Cache.Versions;
         
         }
         private void lst_versions_Unselected()
@@ -86,6 +109,7 @@ namespace UniversalVivecraftInstaller
             if (version.Releases[0].Assets.Count > 1) btn_install.Enabled = true;
             else btn_install.Enabled = false;
             btn_installvr.Enabled = true;
+            btn_dlforge.Enabled = true; // TODO
         }
 
         private void btn_install_Click(object sender, EventArgs e)
@@ -105,7 +129,7 @@ namespace UniversalVivecraftInstaller
             var outFile = new DirectoryInfo(Path.GetTempPath()).CombineFile(filename);
             try
             {
-                if (!outFile.Exists)
+                if (!outFile.Exists || outFile.Length < 2)
                 {
                     using (WebClient wc = new WebClient())
                     {
@@ -119,6 +143,20 @@ namespace UniversalVivecraftInstaller
             {
                 MessageBox.Show(ex.Message.ToString());
             }
+        }
+
+        private void btn_dlforge_Click(object sender, EventArgs e)
+        {
+            Addon addon = forgeClient.GetAddon(325360);
+
+            // Prints the first author of the mod
+            MessageBox.Show(addon.Name);
+            // addon.LatestFiles.Where(f => f.Versions)
+        }
+
+        private void btn_dlspigot_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

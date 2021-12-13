@@ -1,18 +1,23 @@
 ﻿using Octokit;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace UniversalVivecraftInstaller
 {
 
     public static class GithubCl
     {
-        public static IReadOnlyList<Repository> GetAllRepositoriesForUser(GitHubClient ghClient, string login)
+        public static List<Repository> GetAllRepositoriesForUser(GitHubClient ghClient, string login)
         {
-            return ghClient.Repository.GetAllForUser(login).Result;
+            var result = new List<Repository>();
+            result = ghClient.Repository.GetAllForUser(login).Result.ToList();
+            return result;
         }
-        public static IReadOnlyList<Release> GetAllReleasesForRepository(GitHubClient ghClient, string owner, string name)
+        public static List<Release> GetAllReleasesForRepository(GitHubClient ghClient, string owner, string name)
         {
-            return ghClient.Repository.Release.GetAll(owner, name).Result;
+            var result = new List<Release>();
+            result = ghClient.Repository.Release.GetAll(owner, name).Result.ToList();
+            return result;
         }
     }
 }

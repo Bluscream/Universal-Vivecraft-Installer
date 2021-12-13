@@ -15,6 +15,7 @@ using System.Globalization;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json.Linq;
+using System.Collections;
 
 namespace Bluscream
 {
@@ -102,6 +103,7 @@ namespace Bluscream
         }
         #endregion
         #region FileInfo
+        public static void WriteAllText(this FileInfo file, string contents) => File.WriteAllText(file.FullName, contents);
         public static string ReadAllText(this FileInfo file) => File.ReadAllText(file.FullName);
         public static List<string> ReadAllLines(this FileInfo file) => File.ReadAllLines(file.FullName).ToList();
         public static FileInfo CombineFile(this DirectoryInfo dir, params string[] paths)
@@ -210,6 +212,29 @@ namespace Bluscream
         }
         #endregion
         #region List
+
+        public static IReadOnlyList<T> AsReadOnly<T>(this IList<T> list)
+        {
+            if (list == null)
+                throw new ArgumentNullException(nameof(list));
+
+            return list as IReadOnlyList<T> ?? new ReadOnlyWrapper<T>(list);
+        }
+
+        private sealed class ReadOnlyWrapper<T> : IReadOnlyList<T>
+        {
+            private readonly IList<T> _list;
+
+            public ReadOnlyWrapper(IList<T> list) => _list = list;
+
+            public int Count => _list.Count;
+
+            public T this[int index] => _list[index];
+
+            public IEnumerator<T> GetEnumerator() => _list.GetEnumerator();
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
         public static string ToQueryString(this NameValueCollection nvc)
         {
             if (nvc == null) return string.Empty;
@@ -334,6 +359,7 @@ namespace Bluscream
         public static string ToEnabledDisabled(this bool input) => input ? "Enabled" : "Disabled";
         public static string ToOnOff(this bool input) => input ? "On" : "Off";
         #endregion
+   
     }
 
 }

@@ -37,6 +37,8 @@ namespace UniversalVivecraftInstaller
             this.btn_install = new System.Windows.Forms.Button();
             this.btn_installvr = new System.Windows.Forms.Button();
             this.bnd_versions = new System.Windows.Forms.BindingSource(this.components);
+            this.btn_dlforge = new System.Windows.Forms.Button();
+            this.btn_dlspigot = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.lst_versions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -50,6 +52,7 @@ namespace UniversalVivecraftInstaller
             this.lst_versions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.lst_versions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lst_versions.Location = new System.Drawing.Point(0, 0);
+            this.lst_versions.MultiSelect = false;
             this.lst_versions.Name = "lst_versions";
             this.lst_versions.ReadOnly = true;
             this.lst_versions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -78,6 +81,8 @@ namespace UniversalVivecraftInstaller
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.btn_dlspigot);
+            this.splitContainer1.Panel2.Controls.Add(this.btn_dlforge);
             this.splitContainer1.Panel2.Controls.Add(this.btn_install);
             this.splitContainer1.Panel2.Controls.Add(this.btn_installvr);
             this.splitContainer1.Panel2.Controls.Add(this.txt_description);
@@ -88,6 +93,7 @@ namespace UniversalVivecraftInstaller
             // btn_install
             // 
             this.btn_install.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_install.Enabled = false;
             this.btn_install.Location = new System.Drawing.Point(279, 419);
             this.btn_install.Name = "btn_install";
             this.btn_install.Size = new System.Drawing.Size(89, 23);
@@ -99,6 +105,7 @@ namespace UniversalVivecraftInstaller
             // btn_installvr
             // 
             this.btn_installvr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_installvr.Enabled = false;
             this.btn_installvr.Location = new System.Drawing.Point(374, 419);
             this.btn_installvr.Name = "btn_installvr";
             this.btn_installvr.Size = new System.Drawing.Size(89, 23);
@@ -106,6 +113,30 @@ namespace UniversalVivecraftInstaller
             this.btn_installvr.Text = "Install VR";
             this.btn_installvr.UseVisualStyleBackColor = true;
             this.btn_installvr.Click += new System.EventHandler(this.btn_installvr_Click);
+            // 
+            // btn_dlforge
+            // 
+            this.btn_dlforge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_dlforge.Enabled = false;
+            this.btn_dlforge.Location = new System.Drawing.Point(3, 419);
+            this.btn_dlforge.Name = "btn_dlforge";
+            this.btn_dlforge.Size = new System.Drawing.Size(58, 23);
+            this.btn_dlforge.TabIndex = 4;
+            this.btn_dlforge.Text = "Forge";
+            this.btn_dlforge.UseVisualStyleBackColor = true;
+            this.btn_dlforge.Click += new System.EventHandler(this.btn_dlforge_Click);
+            // 
+            // btn_dlspigot
+            // 
+            this.btn_dlspigot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_dlspigot.Enabled = false;
+            this.btn_dlspigot.Location = new System.Drawing.Point(67, 419);
+            this.btn_dlspigot.Name = "btn_dlspigot";
+            this.btn_dlspigot.Size = new System.Drawing.Size(58, 23);
+            this.btn_dlspigot.TabIndex = 5;
+            this.btn_dlspigot.Text = "Spigot";
+            this.btn_dlspigot.UseVisualStyleBackColor = true;
+            this.btn_dlspigot.Click += new System.EventHandler(this.btn_dlspigot_Click);
             // 
             // MainForm
             // 
@@ -135,6 +166,8 @@ namespace UniversalVivecraftInstaller
         private System.Windows.Forms.Button btn_install;
         private System.Windows.Forms.Button btn_installvr;
         internal System.Windows.Forms.BindingSource bnd_versions;
+        private System.Windows.Forms.Button btn_dlspigot;
+        private System.Windows.Forms.Button btn_dlforge;
     }
 }
 
