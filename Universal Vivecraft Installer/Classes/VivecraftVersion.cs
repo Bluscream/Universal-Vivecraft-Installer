@@ -2,27 +2,36 @@
 
 namespace UniversalVivecraftInstaller
 {
-    static class VersionRegex
+    internal static class VersionRegex
     {
         internal static Regex regex = new Regex(@"\d+\.\d+\.*\w*");
     }
-    class VivecraftVersion
+
+    internal class VivecraftVersion
     {
-        static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public string Name { get; set; }
+
         [DisplayName("MC Version")]
         public string MCVersion { get; set; }
+
         [Browsable(false)]
         public Version _MCVersion { get; set; }
+
         public int Versions => Releases.Count;
+
         [Browsable(false)]
         public Repository Repository { get; set; }
+
         [Browsable(false)]
         public IReadOnlyList<Release> Releases { get; set; }
+
         [Browsable(false)]
         public ReleaseAsset NonVRInstaller { get; set; }
+
         [Browsable(false)]
         public ReleaseAsset VRInstaller { get; set; }
+
         [Browsable(false)]
         public VivecraftVersion(Repository repository)
         {

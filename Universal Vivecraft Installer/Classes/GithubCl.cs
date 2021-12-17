@@ -4,7 +4,8 @@ namespace UniversalVivecraftInstaller
 {
     public static class GithubCl
     {
-        static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public static IReadOnlyList<Repository> GetAllRepositoriesForUser(GitHubClient ghClient, string login)
         {
             try

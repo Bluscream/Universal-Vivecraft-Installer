@@ -1,6 +1,6 @@
 ﻿namespace Bluscream
 {
-    static class Extensions
+    internal static class Extensions
     {
         #region Reflection
 
@@ -13,7 +13,7 @@
               propertyInfo => Extensions.ConvertPropertyToDictionary(propertyInfo, instanceToConvert));
         }
 
-        static object ConvertPropertyToDictionary(PropertyInfo propertyInfo, object owner)
+        private static object ConvertPropertyToDictionary(PropertyInfo propertyInfo, object owner)
         {
             var propertyType = propertyInfo.PropertyType;
             var propertyValue = propertyInfo.GetValue(owner);
@@ -63,8 +63,10 @@
             return propertyValue;
         }
 
-        #endregion
+        #endregion Reflection
+
         #region DateTime
+
         public static bool ExpiredSince(this DateTime dateTime, int minutes)
         {
             return (dateTime - DateTime.Now).TotalMinutes < minutes;
@@ -75,8 +77,10 @@
             return new TimeSpan(time.Days, time.Hours, time.Minutes, time.Seconds);
         }
 
-        #endregion
+        #endregion DateTime
+
         #region DirectoryInfo
+
         public static DirectoryInfo Combine(this DirectoryInfo dir, params string[] paths)
         {
             var final = dir.FullName;
@@ -84,12 +88,13 @@
             foreach (var path in paths)
                 final = Path.Combine(final, path);
 
-
             return new DirectoryInfo(final);
         }
 
-        #endregion
+        #endregion DirectoryInfo
+
         #region FileInfo
+
         public static void WriteAllText(this FileInfo file, string contents)
         {
             if (!file.Directory.Exists) Directory.CreateDirectory(file.Directory.FullName);
@@ -107,7 +112,6 @@
             foreach (var path in paths)
                 final = Path.Combine(final, path);
 
-
             return new FileInfo(final);
         }
 
@@ -117,7 +121,6 @@
 
             foreach (var path in paths)
                 final = Path.Combine(final, path);
-
 
             return new FileInfo(final);
         }
@@ -130,6 +133,7 @@
         /*public static string Extension(this FileInfo file) {
             return Path.GetExtension(file.Name);
         }*/
+
         public static void AppendLine(this FileInfo file, string line)
         {
             try
@@ -140,15 +144,19 @@
             catch { }
         }
 
-        #endregion
+        #endregion FileInfo
+
         #region Object
+
         public static string ToJson(this object obj, bool indented = true)
         {
             return JsonConvert.SerializeObject(obj, (indented ? Formatting.Indented : Formatting.None), new JsonConverter[] { new StringEnumConverter() });
         }
 
-        #endregion
+        #endregion Object
+
         #region String
+
         public static string ToTitleCase(this string source, string langCode = "en-US")
         {
             return new CultureInfo(langCode, false).TextInfo.ToTitleCase(source);
@@ -200,16 +208,20 @@
 
         public static void Print(this StringBuilder sb) => Console.WriteLine(sb.ToString());
 
-        #endregion
+        #endregion String
+
         #region Dict
+
         public static void AddSafe(this IDictionary<string, string> dictionary, string key, string value)
         {
             if (!dictionary.ContainsKey(key))
                 dictionary.Add(key, value);
         }
 
-        #endregion
+        #endregion Dict
+
         #region List
+
         public static string ToQueryString(this NameValueCollection nvc)
         {
             if (nvc == null) return string.Empty;
@@ -260,9 +272,12 @@
             return r;
         }
 
-        #endregion
+        #endregion List
+
         #region Uri
-        static readonly Regex QueryRegex = new Regex(@"[?&](\w[\w.]*)=([^?&]+)");
+
+        private static readonly Regex QueryRegex = new Regex(@"[?&](\w[\w.]*)=([^?&]+)");
+
         public static IReadOnlyDictionary<string, string> ParseQueryString(this Uri uri)
         {
             var match = QueryRegex.Match(uri.PathAndQuery);
@@ -282,8 +297,10 @@
             System.Diagnostics.Process.Start(url.ToString());
         }
 
-        #endregion
+        #endregion Uri
+
         #region Enum
+
         public static string GetDescription(this Enum value)
         {
             var type = value.GetType();
@@ -329,8 +346,10 @@
             else throw new ArgumentException("Not found.", "description");
         }
 
-        #endregion
+        #endregion Enum
+
         #region Task
+
         public static async Task<TResult> TimeoutAfter<TResult>(this Task<TResult> task, TimeSpan timeout)
         {
             using (var timeoutCancellationTokenSource = new CancellationTokenSource())
@@ -349,13 +368,16 @@
             }
         }
 
-        #endregion
+        #endregion Task
+
         #region bool
+
         public static string ToYesNo(this bool input) => input ? "Yes" : "No";
 
         public static string ToEnabledDisabled(this bool input) => input ? "Enabled" : "Disabled";
 
         public static string ToOnOff(this bool input) => input ? "On" : "Off";
-        #endregion
+
+        #endregion bool
     }
 }
