@@ -1,15 +1,14 @@
-﻿using Octokit;
+﻿using Bluscream;
+using Octokit;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using Bluscream;
-using System;
 
 namespace UniversalVivecraftInstaller
 {
-
     public static class GithubCl
     {
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public static IReadOnlyList<Repository> GetAllRepositoriesForUser(GitHubClient ghClient, string login)
         {
             try
@@ -22,8 +21,10 @@ namespace UniversalVivecraftInstaller
             {
                 Logger.Error(ex, $"ERROR While retrieving Repositories for user {login}");
             }
+
             return new List<Repository>().AsReadOnly();
         }
+
         public static IReadOnlyList<Release> GetAllReleasesForRepository(GitHubClient ghClient, string owner, string name)
         {
             try
@@ -36,6 +37,7 @@ namespace UniversalVivecraftInstaller
             {
                 Logger.Error(ex, $"ERROR While retrieving releases for repo {owner}/{name}");
             }
+
             return new List<Release>().AsReadOnly();
         }
     }

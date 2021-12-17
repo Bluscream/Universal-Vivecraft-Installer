@@ -1,12 +1,10 @@
-﻿using Octokit;
+﻿using Bluscream;
+using Octokit;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
 using System.ComponentModel;
-using Bluscream;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace UniversalVivecraftInstaller
 {
@@ -16,13 +14,13 @@ namespace UniversalVivecraftInstaller
     }
     class VivecraftVersion
     {
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public string Name { get; set; }
         [DisplayName("MC Version")]
         public string MCVersion { get; set; }
         [Browsable(false)]
         public Version _MCVersion { get; set; }
-        public int Versions { get { return Releases.Count; } }
+        public int Versions => Releases.Count;
         [Browsable(false)]
         public Repository Repository { get; set; }
         [Browsable(false)]
@@ -39,6 +37,7 @@ namespace UniversalVivecraftInstaller
             MCVersion = VersionRegex.regex.Match(repository.Description).Value;
             System.Version.TryParse(MCVersion.Remove(".X"), out var _ver); _MCVersion = _ver;
             Releases = GithubCl.GetAllReleasesForRepository(MainForm.ghClient, repository.Owner.Login, repository.Name);
+
             if (Releases.Count > 0)
             {
                 foreach (var asset in Releases[0].Assets)
@@ -46,7 +45,6 @@ namespace UniversalVivecraftInstaller
                     if (asset.Name.Contains("non", StringComparison.OrdinalIgnoreCase)) NonVRInstaller = asset;
                     else VRInstaller = asset;
                 }
-
             }
         }
     }
