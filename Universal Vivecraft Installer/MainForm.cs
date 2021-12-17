@@ -152,7 +152,7 @@ namespace UniversalVivecraftInstaller
                 btn_spigotserverplugin_install.Enabled = false;
                 return;
             }
-            new Uri(has_spigot.First().Assets[0].BrowserDownloadUrl).OpenInBrowser();
+            new Uri(has_spigot.First().HtmlUrl).OpenInBrowser(); // .Assets[0].BrowserDownloadUrl
         }
 
         private void btn_forgeservermod_install_Click_1(object sender, EventArgs e)
