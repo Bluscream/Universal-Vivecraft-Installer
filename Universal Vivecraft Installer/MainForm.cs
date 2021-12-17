@@ -101,7 +101,7 @@ namespace UniversalVivecraftInstaller
             btn_installvr.Enabled = has_releases && assets > 0;
 
             var has_spigot = spigotReleases.Where(t => t.Name.Contains(version._MCVersion.ToString(2)));
-            if (has_spigot != null) btn_spigotserverplugin_install.Enabled = true;
+            if (has_spigot != null && has_spigot.Count() > 0 && (version._MCVersion > new Version(1, 9))) btn_spigotserverplugin_install.Enabled = true;
             else btn_spigotserverplugin_install.Enabled = false;
 
             // Get curseforge url
@@ -146,13 +146,26 @@ namespace UniversalVivecraftInstaller
         {
             Logger.Debug("btn_spigotserverplugin_install_Click");
             var version = lst_versions.SelectedRows[0].DataBoundItem as VivecraftVersion;
-            var has_spigot = spigotReleases.Where(t => t.Name.Contains(version._MCVersion.ToString(2)));
-            if (has_spigot is null)
+            var has_release = spigotReleases.Where(t => t.Name.Contains(version._MCVersion.ToString(2)));
+            if (has_release is null || has_release.Count() < 1)
             {
                 btn_spigotserverplugin_install.Enabled = false;
                 return;
             }
-            new Uri(has_spigot.First().HtmlUrl).OpenInBrowser(); // .Assets[0].BrowserDownloadUrl
+            var release_url = new Uri(has_release.First().HtmlUrl);
+            try
+            {
+                release_url.OpenInBrowser();
+            }
+            catch (Exception ex) { Logger.Error(ex); }
+
+            var has_asset = has_release.First().Assets.Where(t => t.Name.Contains(version._MCVersion.ToString(2)));
+            if (has_asset != null && has_release.Count() > 0)
+            {
+                var asset_url = new Uri(has_asset.First().BrowserDownloadUrl);
+                MessageBox.Show($"Copied URL\n\n{asset_url}");
+                Clipboard.SetText(asset_url.ToString());
+            }
         }
 
         private void btn_forgeservermod_install_Click_1(object sender, EventArgs e)
