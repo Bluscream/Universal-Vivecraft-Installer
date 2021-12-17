@@ -1,4 +1,13 @@
 ﻿using Bluscream;
+using Octokit;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Windows.Forms;
 
 namespace UniversalVivecraftInstaller
 {
@@ -7,7 +16,7 @@ namespace UniversalVivecraftInstaller
         internal const string GH_USERNAME = "jrbudda";
         internal const string GH_SPIGOT_REPO = "Vivecraft_Spigot_Extensions";
         internal const int CURSEFORGE_PROJECTID = 325360;
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public static GitHubClient ghClient = new GitHubClient(new ProductHeaderValue("vivecraft-universal-installer"));
         internal List<VivecraftVersion> versions = new List<VivecraftVersion>();
         internal CurseForge.Models.ModInfo forgeMod = new CurseForge.Models.ModInfo();
@@ -31,14 +40,14 @@ namespace UniversalVivecraftInstaller
             }*/
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        void MainForm_Load(object sender, EventArgs e)
         {
             // var user = ghClient.User.Get(GH_USERNAME).Result;
             // .WriteLine(versions.ToJson(true));
             // var releases = ghClient.Repository.Release.GetAll(GH_USERNAME, "octokit.net").Result;
         }
 
-        private List<VivecraftVersion> GetVersions(bool force = false)
+        List<VivecraftVersion> GetVersions(bool force = false)
         {
             if (!force && versions.Count < 1)
             {
@@ -54,16 +63,16 @@ namespace UniversalVivecraftInstaller
             return versions;
         }
 
-        private void lst_versions_Unselected()
+        void lst_versions_Unselected()
         {
             txt_description.Clear();
             btn_install.Enabled = false;
             btn_installvr.Enabled = false;
         }
 
-        private int lastSelectedRow;
+        int lastSelectedRow;
 
-        private void lst_versions_SelectionChanged(object sender, EventArgs e)
+        void lst_versions_SelectionChanged(object sender, EventArgs e)
         {
             if (lst_versions.SelectedRows.Count != 1)
             {
@@ -106,19 +115,19 @@ namespace UniversalVivecraftInstaller
             else btn_forgeservermod_install.Enabled = false;
         }
 
-        private void btn_install_Click(object sender, EventArgs e)
+        void btn_install_Click(object sender, EventArgs e)
         {
             var version = lst_versions.SelectedRows[0].DataBoundItem as VivecraftVersion;
             DownloadAndRunInstaller(new Uri(version.NonVRInstaller.BrowserDownloadUrl), version.NonVRInstaller.Name);
         }
 
-        private void btn_installvr_Click(object sender, EventArgs e)
+        void btn_installvr_Click(object sender, EventArgs e)
         {
             var version = lst_versions.SelectedRows[0].DataBoundItem as VivecraftVersion;
             DownloadAndRunInstaller(new Uri(version.VRInstaller.BrowserDownloadUrl), version.VRInstaller.Name);
         }
 
-        private void DownloadAndRunInstaller(Uri url, string filename)
+        void DownloadAndRunInstaller(Uri url, string filename)
         {
             var outFile = new DirectoryInfo(Path.GetTempPath()).CombineFile(filename);
 
@@ -139,7 +148,7 @@ namespace UniversalVivecraftInstaller
             }
         }
 
-        private void btn_spigotserverplugin_install_Click(object sender, EventArgs e)
+        void btn_spigotserverplugin_install_Click(object sender, EventArgs e)
         {
             Logger.Debug("btn_spigotserverplugin_install_Click");
             var version = lst_versions.SelectedRows[0].DataBoundItem as VivecraftVersion;
@@ -169,7 +178,7 @@ namespace UniversalVivecraftInstaller
             }
         }
 
-        private void btn_forgeservermod_install_Click_1(object sender, EventArgs e)
+        void btn_forgeservermod_install_Click_1(object sender, EventArgs e)
         {
             Logger.Debug("btn_forgeservermod_install_Click");
             var version = lst_versions.SelectedRows[0].DataBoundItem as VivecraftVersion;

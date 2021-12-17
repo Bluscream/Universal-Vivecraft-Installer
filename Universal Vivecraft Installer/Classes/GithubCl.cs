@@ -1,10 +1,14 @@
 ﻿using Bluscream;
+using Octokit;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace UniversalVivecraftInstaller
 {
     public static class GithubCl
     {
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public static IReadOnlyList<Repository> GetAllRepositoriesForUser(GitHubClient ghClient, string login)
         {

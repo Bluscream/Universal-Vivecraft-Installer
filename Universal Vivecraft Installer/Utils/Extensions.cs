@@ -1,4 +1,20 @@
-﻿namespace Bluscream
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Bluscream
 {
     internal static class Extensions
     {
@@ -13,7 +29,7 @@
               propertyInfo => Extensions.ConvertPropertyToDictionary(propertyInfo, instanceToConvert));
         }
 
-        private static object ConvertPropertyToDictionary(PropertyInfo propertyInfo, object owner)
+        static object ConvertPropertyToDictionary(PropertyInfo propertyInfo, object owner)
         {
             var propertyType = propertyInfo.PropertyType;
             var propertyValue = propertyInfo.GetValue(owner);
@@ -276,7 +292,7 @@
 
         #region Uri
 
-        private static readonly Regex QueryRegex = new Regex(@"[?&](\w[\w.]*)=([^?&]+)");
+        static readonly Regex QueryRegex = new Regex(@"[?&](\w[\w.]*)=([^?&]+)");
 
         public static IReadOnlyDictionary<string, string> ParseQueryString(this Uri uri)
         {

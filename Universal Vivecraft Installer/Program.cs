@@ -1,4 +1,7 @@
-﻿namespace UniversalVivecraftInstaller
+﻿using System;
+using System.Windows.Forms;
+
+namespace UniversalVivecraftInstaller
 {
     internal static class Program
     {
@@ -6,7 +9,7 @@
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        private static void Main()
+        static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

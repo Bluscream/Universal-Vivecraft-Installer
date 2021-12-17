@@ -1,4 +1,10 @@
 ﻿using Bluscream;
+using Octokit;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace UniversalVivecraftInstaller
 {
@@ -9,7 +15,7 @@ namespace UniversalVivecraftInstaller
 
     internal class VivecraftVersion
     {
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public string Name { get; set; }
 
         [DisplayName("MC Version")]
