@@ -1,8 +1,4 @@
 ﻿using Bluscream;
-using Octokit;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
 namespace UniversalVivecraftInstaller
 {
