@@ -2,4 +2,4 @@
 
 Scrapes Github for Vivecraft versions to install
 
-<img src="https://i.imgur.com/03J9iDs.png">
+<img src="https://i.imgur.com/jXu5CZ8.png">
