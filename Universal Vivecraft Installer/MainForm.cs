@@ -194,5 +194,13 @@ namespace UniversalVivecraftInstaller
             fmod.Item1.OpenInBrowser();
             // DownloadAndRunInstaller(fmod.Item1, fmod.Item2);
         }
+
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e) => GetVersions();
+
+        private void websiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var item = (ToolStripItem)sender;
+            new Uri((string)item.Tag).OpenInBrowser();
+        }
     }
 }
